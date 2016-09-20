@@ -1,0 +1,23 @@
+---
+jobs:
+- name: build
+  public: true
+  plan:
+  - get: bosh-lite-spiff-dockerfile
+    trigger: true
+  - put: bosh-lite-spiff-dockerhub
+    params:
+      build: bosh-lite-spiff-dockerfile
+
+resources:
+- name: bosh-lite-spiff-dockerfile
+  type: git
+  source:
+    uri: https://github.com/EngineerBetter/bosh-lite-spiff-dockerfile
+
+- name: bosh-lite-spiff-dockerhub
+  type: docker-image
+  source:
+    repository: engineerbetter/bosh-lite-spiff
+    username: {{docker-user}}
+    password: {{docker-password}}
